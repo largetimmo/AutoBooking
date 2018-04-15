@@ -1,5 +1,7 @@
 # AutoBooking
 
+Purpose:Automatically accomplish library room booking request.
+
 Java+Python+Web
 
 Java-> Main logic of website and control schedule task to book a room
