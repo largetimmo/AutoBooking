@@ -13,7 +13,7 @@ Web-> Used as web front technology to collect username/password and show current
 Database -> Mysql
 
 
-Java: Try to using SprintMVC + Spring + Jsp
+Java: Try to using SpringMVC + Spring + Jsp
 
 Python:To be updated
 
