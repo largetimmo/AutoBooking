@@ -18,12 +18,9 @@ public class UserDAO {
     public UserDAO() {
 
     }
-
     public void setConnectionPool(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
-
     }
-
     /**
      * add user to database
      * @param user
@@ -57,6 +54,7 @@ public class UserDAO {
         Connection connection = connectionPool.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 int uid = resultSet.getInt(resultSet.findColumn("uid"));
