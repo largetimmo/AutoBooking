@@ -40,9 +40,9 @@ booking_confirm_data = {
     'cboRequestType': 'b684b44a-00ee-43b1-aae1-567f979816df',  # NEED REPLACED, ROOM CALLBACK ID
     'txtNumberOfAttendees': 0,
     'dpStartDate_stamp': 1524441600,
-# NEED REPLACED TIME, (the difference between the target day and 1969.12.31) *86400
+    # NEED REPLACED TIME, (the difference between the target day and 1969.12.31) *86400
     'cboStartTime': 1080,
-# NEED REPLACED -> room start time,Starttime * 60 = this, e.g. starttime is 3p.m,so it's 15*60 = 900
+    # NEED REPLACED -> room start time,Starttime * 60 = this, e.g. starttime is 3p.m,so it's 15*60 = 900
     'cboDuration': 120,  # NEED REPLACED -> booking duration,default 120 is fine for 2 hours
     'txtNbOfPeople': 0,
     'txtMinArea': 0,
