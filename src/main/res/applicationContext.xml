@@ -17,6 +17,10 @@
     <bean id="userdao" class="dao.UserDAO">
         <property name="connectionPool" ref="connectionpool"/>
     </bean>
+    <bean id="usermanagement" class="serviceImpl.UserManagementImpl">
+        <property name="userDAO" ref="userdao"/>
+    </bean>
+
 
 
 </beans>
