@@ -20,6 +20,7 @@
     <bean id="usermanagement" class="serviceImpl.UserManagementImpl">
         <property name="userDAO" ref="userdao"/>
     </bean>
+    <bean id="excutor" class="util.ScriptExecutor"/>
 
 
 
