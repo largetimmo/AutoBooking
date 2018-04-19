@@ -99,5 +99,20 @@ public class UserDAO {
         return user_list;
     }
 
+    public boolean deleteUser(int id){
+        String sql = "DELETE FROM USER WHERE uid = ?";
+        Connection connection = connectionPool.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,id);
+            preparedStatement.execute();
+            preparedStatement.close();
+            connectionPool.putConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 
 }
