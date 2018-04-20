@@ -3,10 +3,10 @@
 #include <string.h>
 
 #include "util_ScriptExecutor.h"
-char* execute(char* filename,char** arg,int arglen){
+char* execute(const char* filename,const char** arg,int arglen){
     char command[128];
     int i;
-    char* result = malloc(15);
+    char* result = malloc(sizeof(char) * 15);
     strcpy(command,"python3 ");
     strcat(command,filename);
     for(i = 0; i<arglen;i++){
@@ -26,13 +26,15 @@ char* execute(char* filename,char** arg,int arglen){
 
 }
 JNIEXPORT jstring JNICALL Java_util_ScriptExecutor_execute (JNIEnv *env, jobject cls, jstring filename, jobjectArray argarr){
-    int arrlen = env->GetArrayLength(argarr);
-    char** argumentarray = malloc((char*) * arrlen);
-    char* filename_str = env->GetStringUTFChars(filename,0);
+    (*env)->FindClass(env,"java/lang/String");
+    int arrlen;
+    arrlen = (*env)->GetArrayLength(env,argarr);
+    const char** argumentarray = malloc(sizeof(const char*) * arrlen);
+    const char* filename_str = (*env)->GetStringUTFChars(env,filename,0);
     int i;
-    for (i = 0; i< arglen i++){
-        jstring arg = (jstring)(env->GetObjectArrayElement(argarr,i));
-        char* str = env->GetStringUTFChars(arg, 0);
+    for (i = 0; i< arrlen;i++){
+        jstring arg = (jstring)((*env)->GetObjectArrayElement(env,argarr,i));
+        const char* str = (*env)->GetStringUTFChars(env,arg, 0);
         argumentarray[i] = str;
     }
     char* result = execute(filename_str,argumentarray,arrlen);
