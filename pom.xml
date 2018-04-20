@@ -84,7 +84,6 @@
       <artifactId>spring-aspects</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <!-- JSP相关 -->
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
@@ -189,11 +188,13 @@
 
     <resources>
       <resource>
-        <directory>src/main/res</directory>
+        <directory>src/main/resources</directory>
         <includes>
           <include>**/*.properties</include>
           <include>**/*.xml</include>
           <include>**/*.tld</include>
+          <include>**/lib/*.so</include>
+          <include>**/script/*</include>
         </includes>
         <filtering>false</filtering>
       </resource>
