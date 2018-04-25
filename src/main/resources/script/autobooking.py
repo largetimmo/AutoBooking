@@ -112,7 +112,7 @@ def main(argv):
     # 3-> datetime(int)
     # 4 -> starttime(int)
     # 5 -> duration(int)
-    # 5 -> roomnumber
+    # 6 -> roomnumber
 
     if (len(argv) != 6):
         exit(-1)
