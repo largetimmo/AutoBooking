@@ -1,8 +1,23 @@
 package pojo;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class BookingRequest {
+    /*
+        # Argument format:
+    # 1 -> username
+    # 2 -> password
+    # 3-> datetime(int)
+    # 4 -> starttime(int)
+    # 5 -> duration(int)
+    # 6 -> roomnumber
+     */
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+    private static final long SEVEN_DAYS_SEC = 604800;
     private String username;
     private String password;
     private String room;
@@ -10,6 +25,26 @@ public class BookingRequest {
     private int startMinute;
     private int durationHour;
     private int durationMinute;
+
+    private static String parseTime(int hour,int minute){
+        minute+=(hour*60);
+        return Integer.toString(minute);
+    }
+    public static String getDateTime(){
+        Date today = Calendar.getInstance().getTime();
+        String today_str = SDF.format(today);
+        try {
+            today = SDF.parse(today_str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long daydiff = today.getTime();
+        daydiff+=SEVEN_DAYS_SEC;
+        return Long.toString(daydiff);
+    }
+
+
+
 
     public String getUsername() {
         return username;
@@ -66,6 +101,17 @@ public class BookingRequest {
     public void setDurationMinute(int durationMinute) {
         this.durationMinute = durationMinute;
     }
+
+    public String[] constructArr(){
+        String[] arg_Arr = new String[6];
+        arg_Arr[0] = username;
+        arg_Arr[1] = password;
+        arg_Arr[2] = getDateTime();
+        arg_Arr[3] = parseTime(startHour,startMinute);
+        arg_Arr[4] = parseTime(durationHour,durationMinute);
+        arg_Arr[5] = room;
+        return arg_Arr;
+    }
     public static class Builder{
         private final BookingRequest instance = new BookingRequest();
         public BookingRequest create(){
@@ -100,4 +146,5 @@ public class BookingRequest {
             return this;
         }
     }
+
 }
