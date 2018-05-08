@@ -40,9 +40,9 @@ booking_confirm_data = {
     'cboRequestType': 'b684b44a-00ee-43b1-aae1-567f979816df',  # NEED REPLACED, ROOM CALLBACK ID
     'txtNumberOfAttendees': 0,
     'dpStartDate_stamp': 1524441600,
-    # NEED REPLACED TIME, (the difference between the target day and 1969.12.31) *86400
+# NEED REPLACED TIME, (the difference between the target day and 1969.12.31) *86400
     'cboStartTime': 1080,
-    # NEED REPLACED -> room start time,Starttime * 60 = this, e.g. starttime is 3p.m,so it's 15*60 = 900
+# NEED REPLACED -> room start time,Starttime * 60 = this, e.g. starttime is 3p.m,so it's 15*60 = 900
     'cboDuration': 120,  # NEED REPLACED -> booking duration,default 120 is fine for 2 hours
     'txtNbOfPeople': 0,
     'txtMinArea': 0,
@@ -53,6 +53,7 @@ booking_confirm_data = {
 
 
 def Booking(username, password, datetime, starttime, roomnum, duration):
+
     session = requests.Session()  # create a session
     res_login_page = session.get(LOGIN_PAGE)  # go to login page -> get cookie
     data = {'txtUsername': username, 'txtPassword': password}  # create login data
@@ -102,7 +103,7 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
     booking_confirm_data["cboStartTime"] = starttime
     booking_confirm_data["cboDuration"] = duration
     res = requests.post(CREATE_BOOKING_URL, data=booking_confirm_data, cookies=cookie)
-    return res.status_code
+    print(res.text)
 
 
 def main(argv):
@@ -122,9 +123,7 @@ def main(argv):
     starttime = int(argv[3])
     duration = int(argv[4])
     roomnumber = argv[5]
-    status = Booking(username=username, password=password, datetime=datetime, starttime=starttime, roomnum=roomnumber,
-                     duration=duration)
-    return (status)
+    Booking(username=username, password=password, datetime=datetime, starttime=starttime, roomnum=roomnumber,duration=duration)
 
 
 if __name__ == '__main__':
