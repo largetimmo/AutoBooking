@@ -4,7 +4,7 @@
 
 #include "util_ScriptExecutor.h"
 char* execute(const char* filename,const char** arg,int arglen){
-    char command[128];
+    char command[384];
     int i;
     char* result = malloc(sizeof(char) * 15);
     strcpy(command,"python3 ");
@@ -17,11 +17,12 @@ char* execute(const char* filename,const char** arg,int arglen){
     if(outputf == NULL){
         printf("execute failed");
     }
-    if(fgets(result,10,outputf) != NULL){
+    if(fgets(result,30,outputf) != NULL){
         //do got something
         pclose(outputf);
         return result;
     }
+
     return "None";
 
 }
