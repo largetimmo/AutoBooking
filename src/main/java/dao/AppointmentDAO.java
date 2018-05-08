@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AppointmentDAO {
     private ConnectionPool connectionPool;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     public void setConnectionPool(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
@@ -37,5 +37,6 @@ public class AppointmentDAO {
         //todo
         return null;
     }
+
 
 }
