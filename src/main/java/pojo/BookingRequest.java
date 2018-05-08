@@ -38,7 +38,7 @@ public class BookingRequest {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long daydiff = today.getTime();
+        long daydiff = today.getTime()/1000;
         daydiff+=SEVEN_DAYS_SEC;
         return Long.toString(daydiff);
     }
