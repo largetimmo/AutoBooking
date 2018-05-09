@@ -8,14 +8,12 @@
     <!-- spring configuration -->
 
     <context:annotation-config/>
-    <context:component-scan base-package="service"/>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>
+    <context:component-scan base-package="serviceImpl"/>
     <bean id="connectionpool" class="dao.ConnectionPool"/>
     <bean id="userdao" class="dao.UserDAO">
         <property name="connectionPool" ref="connectionpool"/>
     </bean>
-    <bean id="usermanagement" class="serviceImpl.UserManagementImpl">
+    <bean id="usermanagement" class="serviceImpl.UserServiceImpl">
         <property name="userDAO" ref="userdao"/>
     </bean>
     <bean id="executor" class="util.ScriptExecutor"/>
