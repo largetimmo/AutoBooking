@@ -6,13 +6,13 @@
 
 Java-> Main logic of website and control schedule task to book a room
 
-Python-> Simulate as a human to accomplish booking tasks
+Python-> Simulate as a human to accomplish booking tasks(**Done**)
 
 Web-> Used as web front technology to collect username/password and show current status to user
 
-C-> Middleware to connect Java and Python
+C-> Middleware to connect Java and Python (**Done**)
 
-Database -> Mysql
+Database -> Mysql (**Done**)
 
 Java: Try to using SpringMVC + Spring + Jsp
 
