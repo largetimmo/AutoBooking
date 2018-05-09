@@ -10,9 +10,7 @@
     <context:annotation-config/>
     <context:component-scan base-package="service"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    </bean>
-
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>
     <bean id="connectionpool" class="dao.ConnectionPool"/>
     <bean id="userdao" class="dao.UserDAO">
         <property name="connectionPool" ref="connectionpool"/>
@@ -21,7 +19,28 @@
         <property name="userDAO" ref="userdao"/>
     </bean>
     <bean id="executor" class="util.ScriptExecutor"/>
+    <bean id="appodao" class="dao.AppointmentDAO"/>
 
 
+    <bean id="bookingJobObject" class="util.BookingJob"/>
 
+    <bean name="bookingJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="bookingJobObject"/>
+        <property name="targetMethod" value="doIt"/>
+    </bean>
+
+    <bean id = "jobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- link to job -->
+        <property name="jobDetail" ref="bookingJob"/>
+        <!-- Run the job every hour -->
+        <property name="cronExpression" value="0 0 * * * ?"/>
+    </bean>
+    <!-- link to trigger -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
+        <property name="triggers">
+            <list>
+                <ref bean="jobTrigger"/>
+            </list>
+        </property>
+    </bean>
 </beans>
