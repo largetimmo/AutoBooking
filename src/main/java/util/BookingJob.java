@@ -2,10 +2,10 @@ package util;
 
 import dao.AppointmentDAO;
 import dao.UserDAO;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.quartz.JobExecutionException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.quartz.DisallowConcurrentExecution;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -16,23 +16,43 @@ import pojo.User;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
+@DisallowConcurrentExecution
 public class BookingJob{
-    private static Logger logger = Logger.getLogger(ScriptExecutor.class);//initial logger
+    private static Logger logger = LogManager.getLogger(ScriptExecutor.class);//initial logger
     private static final String ROOM = "324D";//booking for only one room for now
+    @Autowired
+    private AppointmentDAO appointmentDAO;
+    @Autowired
+    private UserDAO userDAO;
+    @Autowired
+    private ScriptExecutor executor;
+
     //todo
     public BookingJob(){
         logger.debug("BookingJob Loaded");
     }
+
+    public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
+        this.appointmentDAO = appointmentDAO;
+    }
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    public void setExecutor(ScriptExecutor executor) {
+        this.executor = executor;
+    }
+
     public void doIt(){
-        System.out.println("123\n\n\n\n\n\n");
-        BasicConfigurator.configure();
-        logger.setLevel(Level.DEBUG);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.debug("Schedule Task started");
         logger.debug("Time is "+new Date());
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        AppointmentDAO appointmentDAO = applicationContext.getBean(AppointmentDAO.class);
-        UserDAO userDAO =  applicationContext.getBean(UserDAO.class);
+
         Resource script = new ClassPathResource("/script/autobooking.py");
         String scriptpath = null;
 
@@ -46,7 +66,6 @@ public class BookingJob{
             //logger.error("Cannot find python script.Abort!!");
             return;
         }
-        ScriptExecutor executor = applicationContext.getBean(ScriptExecutor.class);
         List<User> allUsers = userDAO.getUserNotBookingByDate(new Date());
         int startHour = 10;//10am
         int duration = 2; // 2 hour, MAX appointment duration
@@ -78,8 +97,12 @@ public class BookingJob{
                 appointment.setStartTime(startHour);
                 appointment.setDate(new Date());
                 appointment.setUser(user);
+                appointment.setRoom(ROOM);
+                appointmentDAO.add(appointment);
+                startHour+=duration;
             }
         }
+
         System.out.println("Done");
     }
 }
