@@ -77,33 +77,38 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
     json_str = json_str[:json_end_index - 1]
 
     # parse to json
-    json_obj = json.load(io.StringIO(json_str))
-    # get content
-    room_list = json_obj["RowData"]
-    room_json = None
-    room_row_id = None
-    # find the room json object associated with the room number
-    for item in room_list:
-        if (item["rowData"][2] == roomnum):
-            room_json = item  # the room object
-            room_row_id = item["rowID"]  # room row id
-            break
+    try:
+        json_obj = json.load(io.StringIO(json_str))
+    except json.decoder.JSONDecodeError:
+        print("None")
+        exit(0);
+    else:
+        # get content
+        room_list = json_obj["RowData"]
+        room_json = None
+        room_row_id = None
+        # find the room json object associated with the room number
+        for item in room_list:
+            if (item["rowData"][2] == roomnum):
+                room_json = item  # the room object
+                room_row_id = item["rowID"]  # room row id
+                break
 
-    if(room_json == None):
-        print("Cannot find related room.Exiting.....")
-        exit(-1)
-    room_callback_id = room_json["callbackArgument"][0]
+        if(room_json == None):
+            print("Cannot find related room.Exiting.....")
+            exit(-1)
+        room_callback_id = room_json["callbackArgument"][0]
 
-    # replace the data in request template
-    booking_confirm_data["txtRoomConfigId"] = room_row_id
-    booking_confirm_data["txtRoomId"] = room_row_id
-    booking_confirm_data["cboRoomConfiguration"] = room_row_id
-    booking_confirm_data["cboRequestType"] = room_callback_id
-    booking_confirm_data["dpStartDate_stamp"] = datetime
-    booking_confirm_data["cboStartTime"] = starttime
-    booking_confirm_data["cboDuration"] = duration
-    res = requests.post(CREATE_BOOKING_URL, data=booking_confirm_data, cookies=cookie)
-    print(res.text)
+        # replace the data in request template
+        booking_confirm_data["txtRoomConfigId"] = room_row_id
+        booking_confirm_data["txtRoomId"] = room_row_id
+        booking_confirm_data["cboRoomConfiguration"] = room_row_id
+        booking_confirm_data["cboRequestType"] = room_callback_id
+        booking_confirm_data["dpStartDate_stamp"] = datetime
+        booking_confirm_data["cboStartTime"] = starttime
+        booking_confirm_data["cboDuration"] = duration
+        res = requests.post(CREATE_BOOKING_URL, data=booking_confirm_data, cookies=cookie)
+        print(res.text)
 
 
 def main(argv):

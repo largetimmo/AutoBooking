@@ -1,6 +1,7 @@
 package dao;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import pojo.Appointment;
 
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AppointmentDAO {
+    @Autowired
     private ConnectionPool connectionPool;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     public void setConnectionPool(ConnectionPool connectionPool) {
