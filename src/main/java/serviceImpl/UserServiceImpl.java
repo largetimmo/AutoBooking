@@ -1,11 +1,14 @@
 package serviceImpl;
 
 import dao.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import pojo.User;
-import service.UserManagement;
+import service.UserService;
 
+public class UserServiceImpl implements UserService {
 
-public class UserManagementImpl implements UserManagement {
+    @Autowired
     UserDAO userDAO;
 
     public void setUserDAO(UserDAO userDAO) {
