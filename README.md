@@ -14,7 +14,7 @@ C-> Middleware to connect Java and Python (**Done**)
 
 Database -> Mysql (**Done**)
 
-Java: Try to using SpringMVC + Spring + Jsp
+Java:Use SpringMVC + Spring design RESTful API
 
 Python:Use requests lib to accomplish booking task
 
