@@ -1,6 +1,7 @@
 <html>
 <head>
     <%@include file="include/header.jsp"%>
+                    password:$("#password").val()
 </head>
 <body>
     <div class="container">

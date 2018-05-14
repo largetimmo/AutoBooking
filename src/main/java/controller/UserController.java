@@ -10,10 +10,10 @@ import service.UserService;
 
 @RestController
 @RequestMapping("/user")
-public class AppointmentController {
-    private static final Logger logger = LogManager.getLogger(AppointmentController.class);
+public class UserController {
+    private static final Logger logger = LogManager.getLogger(UserController.class);
     private UserService userManagement;
-    public AppointmentController(UserService userManagement) {
+    public UserController(UserService userManagement) {
         this.userManagement = userManagement;
     }
 
