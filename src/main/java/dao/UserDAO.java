@@ -113,6 +113,23 @@ public class UserDAO {
         }
         return true;
     }
+    public Integer count(){
+        String sqlquery = "SELECT COUNT(*) FROM User";
+        int result = -1;
+        Connection connection = connectionPool.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlquery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                result= resultSet.getInt(1);
+            }
+            preparedStatement.close();
+            connectionPool.putConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
 }
