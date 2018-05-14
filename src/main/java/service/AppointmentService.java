@@ -7,6 +7,6 @@ import pojo.Appointment;
 import java.util.List;
 
 public interface AppointmentService {
-    Appointment getAppointment(int id);
+    Appointment getAppointment(String bookingID);
     List<Appointment> getAllAppointment();
 }

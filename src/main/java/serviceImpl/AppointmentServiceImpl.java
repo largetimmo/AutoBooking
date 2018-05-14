@@ -31,8 +31,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public Appointment getAppointment(int id) {
-
+    public Appointment getAppointment(String bookingID) {
+        return appointmentDAO.getAppointmentByID(bookingID);
     }
 
     @Override

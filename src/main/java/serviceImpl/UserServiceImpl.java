@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Bean;
 import pojo.User;
 import service.UserService;
 
-public class UserServiceImpl implements UserService {
+public
+class UserServiceImpl implements UserService {
 
     @Autowired
     UserDAO userDAO;
@@ -24,4 +25,10 @@ public class UserServiceImpl implements UserService {
     public void removeUser(int id) {
         userDAO.deleteUser(id);
     }
+
+    @Override
+    public Integer countUser() {
+        return userDAO.count();
+    }
+
 }
