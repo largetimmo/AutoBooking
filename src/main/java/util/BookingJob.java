@@ -46,6 +46,7 @@ public class BookingJob{
 
     public void doIt(){
         try {
+            //try to avoid the job runs too fast and cause it running multiple times in one sec
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -79,6 +80,7 @@ public class BookingJob{
         }
 
         for (User user : allUsers){
+            logger.debug("Current user+"+user);
             BookingRequest bookingRequest = new BookingRequest.Builder()
                     .setDurationHour(duration)
                     .setDurationMinute(0)
@@ -90,6 +92,7 @@ public class BookingJob{
                     .create();
             String[] parameterArray = bookingRequest.constructArr();
             String result = executor.execute(scriptpath,parameterArray);
+
             if(result.startsWith("ML")){
                 Appointment appointment = new Appointment();
                 appointment.setBookID(result);
