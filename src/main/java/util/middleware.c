@@ -6,7 +6,7 @@
 char* execute(const char* filename,const char** arg,int arglen){
     char command[384];
     int i;
-    char* result = malloc(sizeof(char) * 15);
+    char* result = malloc(sizeof(char) * 30);
     strcpy(command,"python3 ");
     strcat(command,filename);
     for(i = 0; i<arglen;i++){
