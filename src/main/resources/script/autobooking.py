@@ -2,6 +2,9 @@ import sys
 import io
 import requests
 import json
+import time
+import datetime
+import ciso8601
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
 LOGIN_URL = 'https://booking.carleton.ca/Portal/Portal/Services/Login.php'
@@ -37,7 +40,7 @@ booking_confirm_data = {
     'txtRequestDisclaimer': 'Select OK to submit this request.',
     'txtRoomConfigId': 'e34ac76a-2eec-4d30-923c-a7624ea0c99a',  # NEED REPLACED  ROOM ROW ID
     'txtOriginalRequestId': '00000000-0000-0000-0000-000000000000',
-    'cboRequestType': 'b684b44a-00ee-43b1-aae1-567f979816df',  # NEED REPLACED, ROOM CALLBACK ID
+    'cboRequestType': 'b684b44a-00ee-43b1-aae1-567f979816df',
     'txtNumberOfAttendees': 0,
     'dpStartDate_stamp': 1524441600,
 # NEED REPLACED TIME, (the difference between the target day and 1969.12.31) *86400
@@ -60,8 +63,9 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
     cookie = session.cookies  # get the cookie acquired from the login page
     res = requests.post(LOGIN_URL, data=data, cookies=cookie)  # send login request with cookie
     res_login_page = session.get(LOGIN_PAGE, cookies=cookie)  # goto login page again
+    time.sleep(1)
 
-    #replace data in search template
+#replace data in search template
     search_data["startDate"] = datetime
     search_data["startTime"] = starttime
     search_data["duration"] = duration
@@ -69,7 +73,7 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
 
     res = session.post(FINDROOM_URL, cookies=cookie, data=search_data)  # get room information
     json_str = res.text  # returned room list
-
+    time.sleep(1)
     # remove html code
     json_bgein_index = json_str.find("data-listData=")
     json_str = json_str[json_bgein_index + len("data-listData=") + 1:]
@@ -81,7 +85,7 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
         json_obj = json.load(io.StringIO(json_str))
     except json.decoder.JSONDecodeError:
         print("None")
-        exit(0);
+        exit(0)
     else:
         # get content
         room_list = json_obj["RowData"]
@@ -97,7 +101,7 @@ def Booking(username, password, datetime, starttime, roomnum, duration):
         if(room_json == None):
             print("Cannot find related room.Exiting.....")
             exit(-1)
-        room_callback_id = room_json["callbackArgument"][0]
+        room_callback_id = room_json["internalInfo"][0]
 
         # replace the data in request template
         booking_confirm_data["txtRoomConfigId"] = room_row_id
@@ -124,8 +128,8 @@ def main(argv):
         exit(-1)
     username = argv[0]
     password = argv[1]
-    datetime = int(argv[2])
-    starttime = int(argv[3])
+    datetime = int(time.mktime(ciso8601.parse_datetime(argv[2]).timetuple()))
+    starttime = int(float(argv[3])*60)
     duration = int(argv[4])
     roomnumber = argv[5]
     Booking(username=username, password=password, datetime=datetime, starttime=starttime, roomnum=roomnumber,duration=duration)
